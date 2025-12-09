@@ -5,7 +5,9 @@ using System;
 public class PlayerInput : MonoBehaviour
 {
     private PlayerInputActions inputActions;
-    public event Action OnInteract;
+    public event Action OnInteractStarted;
+    public event Action OnInteractCanceled;
+
     
     //Public property for continous movement
     public Vector2 MovementInput { get; private set; }
@@ -20,18 +22,23 @@ public class PlayerInput : MonoBehaviour
         //Subscribe to movement input events
         inputActions.Player.Move.performed += OnMove;
         inputActions.Player.Move.canceled += OnMove;
-        inputActions.Player.Interact.performed += OnInteractPerformed;
+
+        inputActions.Player.Interact.started += OnInteractStartedCallback;
+        inputActions.Player.Interact.canceled += OnInteractCanceledCallback;
+        
 
         inputActions.Player.Enable();
     }
+
     private void OnDisable()
     {
         //Unsubscribe
         inputActions.Player.Move.performed -= OnMove;
         inputActions.Player.Move.canceled -= OnMove;
 
-        inputActions.Player.Interact.performed -= OnInteractPerformed;
-
+        inputActions.Player.Interact.started -= OnInteractStartedCallback;
+        inputActions.Player.Interact.canceled -= OnInteractCanceledCallback;
+        
         inputActions.Player.Disable();
     }
 
@@ -39,9 +46,12 @@ public class PlayerInput : MonoBehaviour
     {
         MovementInput = context.ReadValue<Vector2>();
     }
-
-    private void OnInteractPerformed(InputAction.CallbackContext context)
+    private void OnInteractStartedCallback(InputAction.CallbackContext context)
     {
-        OnInteract?.Invoke();
+        OnInteractStarted?.Invoke();
     }
+    private void OnInteractCanceledCallback(InputAction.CallbackContext context)
+    {
+        OnInteractCanceled?.Invoke();
+    }   
 }

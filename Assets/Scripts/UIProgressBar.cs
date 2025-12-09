@@ -1,12 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System;
-using UnityEngine.InputSystem;
 
 public class UIProgressBar : MonoBehaviour
 {
     [SerializeField] private Image fillBar; 
+    [SerializeField] private float fillSpeed = 5f;
     private float currentFill = 0f;
+    private bool isFilling = false;
 
     private void Awake()
     {
@@ -15,17 +15,23 @@ public class UIProgressBar : MonoBehaviour
             fillBar = GetComponent<Image>();
         }
         //start empty
-        currentFill = 0f;        
+        fillBar.fillAmount = 0f;        
     }
     private void Update()
     {
-        
+        if(isFilling)
+        {
+            currentFill += fillSpeed * Time.deltaTime;
+            currentFill = Mathf.Clamp01(currentFill);
+            fillBar.fillAmount = currentFill;
+        }
     }
-    public void FillOnce()
+    public void StartFilling()
     {
-        currentFill += Time.deltaTime;
-        currentFill = Mathf.Clamp01(currentFill);
-
-        fillBar.fillAmount = currentFill;
+        isFilling = true;
+    }
+    public void StopFilling()
+    {
+        isFilling = false;
     }
 }
