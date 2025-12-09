@@ -20,25 +20,22 @@ public class MenuUI : MonoBehaviour
             settingsMenu.SetActive(false);
         }
     }
-
     private void OnEnable()
     {
-        //subscribe + safety check
         if(playButton != null)
         {
-            playButton.onClick.AddListener(OpenSettings);
+            playButton.onClick.AddListener(ShowOptions);
         }
     }
     private void OnDisable()
     {
-        //unsubscribe to prevent memory leaks
         if(playButton != null)
         {
-            playButton.onClick.RemoveListener(OpenSettings);
+            playButton.onClick.RemoveListener(ShowOptions);
         }
     }
 
-    private void OpenSettings()
+    private void ShowOptions()
     {
         introMenu.SetActive(false);
         settingsMenu.SetActive(true);
