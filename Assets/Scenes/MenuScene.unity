@@ -1005,6 +1005,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playButton: {fileID: 462472355}
+  settingsButton: {fileID: 446138930}
   quitButton: {fileID: 1889275076}
   introMenu: {fileID: 304990030}
   settingsMenu: {fileID: 1445991055}

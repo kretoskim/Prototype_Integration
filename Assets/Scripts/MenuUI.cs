@@ -1,13 +1,16 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MenuUI : MonoBehaviour
 {
     [SerializeField] private Button playButton;
+    [SerializeField] private Button settingsButton;
     [SerializeField] private Button quitButton;
     [SerializeField] private GameObject introMenu;
     [SerializeField] private GameObject settingsMenu;
+    private string gameSceneName = "GameScene";
 
     private void Awake()
     {
@@ -24,15 +27,28 @@ public class MenuUI : MonoBehaviour
     {
         if(playButton != null)
         {
-            playButton.onClick.AddListener(ShowOptions);
+            playButton.onClick.AddListener(StartGame);
+        }
+        if(settingsButton != null)
+        {
+            settingsButton.onClick.AddListener(ShowOptions);
         }
     }
+
     private void OnDisable()
     {
         if(playButton != null)
         {
-            playButton.onClick.RemoveListener(ShowOptions);
+            playButton.onClick.RemoveListener(StartGame);
         }
+        if(settingsButton != null)
+        {
+            settingsButton.onClick.RemoveListener(ShowOptions);
+        }
+    }
+    private void StartGame()
+    {
+       SceneManager.LoadScene(gameSceneName);
     }
 
     private void ShowOptions()
